@@ -7,26 +7,18 @@ const Addcomments = ({ articleName, setArticleInfo }) => {
   const addComments = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
-    try {
-      const result = await fetch(`https://mern-blog-opal-two.vercel.app/api/articles/${articleName}/add-comment`, {
-        method: "POST",
-        body: JSON.stringify({ username, text: commentText }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    const result = await fetch(/api/articles/${articleName}/add-comment, {
+      method: "POST",
+      body: JSON.stringify({ username, text: commentText }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      if (!result.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const body = await result.json();
-      setArticleInfo(body);
-      setUsername("");
-      setCommentText("");
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    const body = await result.json();
+    setArticleInfo(body);
+    setUsername("");
+    setCommentText("");
   };
 
   return (
@@ -49,6 +41,7 @@ const Addcomments = ({ articleName, setArticleInfo }) => {
       />
       <button
         type="submit"
+        onClick={addComments}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
         Add Comment
